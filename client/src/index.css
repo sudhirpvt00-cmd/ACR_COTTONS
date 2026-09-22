@@ -59,3 +59,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #8A182B;
 }
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+* {
+  box-sizing: border-box;
+}
