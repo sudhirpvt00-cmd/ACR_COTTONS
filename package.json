@@ -1,0 +1,13 @@
+{
+  "name": "dhanu-textile-website",
+  "version": "1.0.0",
+  "description": "Dhanu Textile - E-Commerce Web Application (Client + Server)",
+  "scripts": {
+    "server": "npm start --prefix server",
+    "server:dev": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "client:build": "npm run build --prefix client",
+    "db:seed": "npm run db:seed --prefix server",
+    "test:server": "npm test --prefix server"
+  }
+}

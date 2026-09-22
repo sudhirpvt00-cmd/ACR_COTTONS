@@ -1,0 +1,34 @@
+{
+  "shopName": "ACR COTTONS",
+  "legalName": "ACR COTTONS",
+  "brandTag": "ACR Cottons & Handlooms",
+  "founder": "A.C. RAJ KUMAR",
+  "ownerImage": "/images/owner.jpeg",
+  "tagline": "From Thread to Treasure — Textiles Woven for Everyday Luxury",
+  "about": "The visionary behind ACR Cottons is dedicated to redefining home comfort through artisanal excellence. Operating out of Erode, Tamil Nadu (the Textile Valley of South India), ACR Cottons is a premium textile brand focused on crafting elegant, soft bedspreads, jacquard pillows, luxury pillowcases, and custom t-shirt printing. Founded by A.C. Raj Kumar, our collections bring a royal, peaceful feel to every home, blending traditional craftsmanship with modern luxury.",
+  "phone": "+91 87788 24123",
+  "whatsapp": "+91 87788 24123",
+  "email": "contact@acrprints.com",
+  "gmail": "contact@acrprints.com",
+  "gmailComposeUrl": "https://mail.google.com/mail/?view=cm&fs=1&to=contact@acrprints.com&su=Inquiry%20to%20ACR%20Cottons",
+  "mapUrl": "https://maps.app.goo.gl/48x6D8xnWNCibc9YA",
+  "mapEmbedQuery": "11.3257665,77.7012776",
+  "address": {
+    "storeName": "ACR COTTONS Flagship Atelier",
+    "street": "2, Sathya Moorthy Street, Surampatti Valasu",
+    "city": "Erode",
+    "state": "Tamil Nadu",
+    "pincode": "638009",
+    "country": "India"
+  },
+  "openingHours": "8:00 AM - 8:00 PM, all working days except Saturday and Sunday",
+  "customPrinting": {
+    "available": true,
+    "minimumOrderQuantity": 10,
+    "description": "Customized T-shirt printing with live 3D/virtual visualizer, bio-washed cotton, and volume pricing."
+  },
+  "socials": {
+    "instagram": "https://instagram.com/acrprints",
+    "facebook": "https://facebook.com/acrprints"
+  }
+}

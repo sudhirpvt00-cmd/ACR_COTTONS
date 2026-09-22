@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  mobile    String   @unique
+  email     String   @unique
+  password  String
+  role      String   @default("CUSTOMER") // "CUSTOMER" or "ADMIN"
+  firstLoginDone Boolean  @default(false)
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  addresses    Address[]
+  cartItems    CartItem[]
+  orders       Order[]
+  customOrders CustomTshirtOrder[]
+
+  @@index([mobile])
+  @@index([email])
+}
+
+model OtpVerification {
+  id        String   @id @default(cuid())
+  mobile    String
+  otpHash   String
+  purpose   String   // "REGISTER" | "FORGOT_PASSWORD" | "LOGIN"
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([mobile, purpose])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  imageUrl    String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  description String
+  price       Float
+  comparePrice Float?
+  fabric      String?
+  color       String?
+  sizes       String?     // Stored as JSON string or comma-separated
+  images      String      // Stored as JSON string array
+  stock       Int         @default(10)
+  isFeatured  Boolean     @default(false)
+  isNewArrival Boolean    @default(false)
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([categoryId])
+  @@index([price])
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  size      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+model Address {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName    String
+  mobile      String
+  street      String
+  city        String
+  state       String
+  pincode     String
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique // e.g. ACR-ORD-100234
+  trackingNumber  String?     @unique // e.g. ACR-TRK-100234
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  totalAmount     Float
+  shippingFee     Float       @default(0)
+  status          String      @default("PLACED") // PLACED, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+  carrier         String?     @default("Erode Express Logistics")
+  estimatedDelivery DateTime?
+  trackingUpdates String?     // Stored as JSON array of status history
+  paymentMethod   String      @default("COD") // COD, SHOP_PAY, RAZORPAY
+  paymentStatus   String      @default("PENDING") // PENDING, PAID, FAILED
+  shippingAddress String      // Stored as JSON snapshot of address
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([trackingNumber])
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  title     String
+  price     Float
+  quantity  Int
+  imageUrl  String?
+  size      String?
+}
+
+model CustomTshirtOrder {
+  id               String   @id @default(cuid())
+  orderNumber      String   @unique // e.g. ACR-TSHIRT-100234
+  trackingNumber   String   @unique // e.g. ACR-TRK-TSHIRT-100234
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  tshirtColor      String   @default("Pure White")
+  fabricGsm        String   @default("180 GSM Bio-Washed Combed Cotton")
+  printPosition    String   @default("Front Chest")
+  designPreviewUrl String   // Base64 or uploaded image path
+  customText       String?
+  textColor        String?
+  sizeBreakdown    String   // JSON string e.g. {"S":2,"M":4,"L":2,"XL":2}
+  totalQuantity    Int      // Minimum 10
+  pricePerUnit     Float    @default(299)
+  totalAmount      Float
+  shippingAddress  String   // JSON string of address
+  paymentMethod    String   @default("COD")
+  status           String   @default("DESIGN_CONFIRMED") // DESIGN_CONFIRMED, PRINTING, QUALITY_INSPECTION, DISPATCHED, DELIVERED, CANCELLED
+  carrier          String?  @default("Erode Express Logistics")
+  estimatedDelivery DateTime?
+  trackingUpdates  String?  // JSON string array of tracking checkpoints
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([userId])
+  @@index([trackingNumber])
+  @@index([orderNumber])
+}
+
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  mobile    String?
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
