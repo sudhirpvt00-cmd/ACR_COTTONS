@@ -15,7 +15,6 @@ import {
   Headphones,
   Truck,
   Award,
-  Layers,
   Crown,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
@@ -115,7 +114,6 @@ export default function Navbar() {
     navigate('/login');
   };
 
-  // Curated collections sub-items (Pillows, Accent Cushions, Larger Bedding inside Collections)
   const COLLECTION_ITEMS = [
     {
       title: 'All Bedding Collections',
@@ -263,7 +261,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Right Actions: Cart & Profile Menu */}
+          {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Cart Button */}
             <button
@@ -286,7 +284,7 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Profile / Account Section */}
+            {/* Profile Menu */}
             {user ? (
               <div ref={profileRef} className="relative">
                 <button
@@ -296,19 +294,19 @@ export default function Navbar() {
                   <UserAvatar user={user} size="sm" />
                   <div className="hidden lg:flex flex-col text-left">
                     <span className="text-xs font-bold leading-none text-stone-900">{user.name}</span>
-                    <span className="text-[10px] text-[#8C6E2C] font-semibold leading-tight">My Atelier Account</span>
+                    <span className="text-[10px] text-[#8C6E2C] font-semibold leading-tight">My Account</span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-stone-400 hidden sm:block" />
                 </button>
 
-                {/* Profile Section Dropdown (Includes Tracking, Atelier, Orders, Heritage) */}
+                {/* Profile Dropdown */}
                 {profileDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-[#E8D5A3] overflow-hidden z-50 animate-fadeIn">
                     <div className="p-4 bg-gradient-to-br from-[#1A1410] to-[#2D2018] text-[#FAF7F2] border-b border-[#D4AF37]/30">
                       <div className="flex items-center gap-2">
                         <Crown className="w-4 h-4 text-[#D4AF37]" />
                         <span className="text-[10px] uppercase font-bold tracking-widest text-[#D4AF37]">
-                          Member Atelier Pass
+                          Client Member
                         </span>
                       </div>
                       <p className="text-sm font-serif font-bold text-white mt-1 leading-tight">
@@ -321,14 +319,14 @@ export default function Navbar() {
 
                     <div className="py-2 text-xs divide-y divide-stone-100">
                       <div className="py-1">
-                        {/* Atelier Dashboard */}
+                        {/* Orders & Dispatches */}
                         <Link
-                          to="/dashboard"
+                          to="/profile?tab=orders"
                           onClick={() => setProfileDropdownOpen(false)}
                           className="flex items-center gap-3 px-4 py-2.5 text-stone-800 hover:bg-[#FAF8F5] hover:text-[#8C6E2C] font-bold transition-colors"
                         >
-                          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-                          <span>Atelier Dashboard</span>
+                          <Package className="w-4 h-4 text-[#8C6E2C]" />
+                          <span>Orders & Dispatches</span>
                         </Link>
 
                         {/* Tracking Consignment */}
@@ -337,55 +335,24 @@ export default function Navbar() {
                           onClick={() => setProfileDropdownOpen(false)}
                           className="flex items-center gap-3 px-4 py-2.5 text-stone-700 hover:bg-[#FAF8F5] hover:text-[#8C6E2C] font-semibold transition-colors"
                         >
-                          <Truck className="w-4 h-4 text-[#8C6E2C]" />
+                          <Truck className="w-4 h-4 text-stone-400" />
                           <span>Track Consignment</span>
                         </Link>
-                      </div>
 
-                      <div className="py-1">
-                        {/* Bedding Orders */}
+                        {/* Profile Settings */}
                         <Link
-                          to="/dashboard"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-stone-900 transition-colors"
-                        >
-                          <Package className="w-4 h-4 text-stone-400" />
-                          <span>Bedding Orders</span>
-                        </Link>
-
-                        {/* Custom T-Shirt Orders */}
-                        <Link
-                          to="/dashboard"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-stone-900 transition-colors"
-                        >
-                          <ShoppingBag className="w-4 h-4 text-stone-400" />
-                          <span>Custom T-Shirt Orders</span>
-                        </Link>
-
-                        {/* Heritage & Founder */}
-                        <Link
-                          to="/dashboard"
-                          onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-stone-900 transition-colors"
-                        >
-                          <Award className="w-4 h-4 text-stone-400" />
-                          <span>Atelier Heritage & Founder</span>
-                        </Link>
-
-                        {/* My Profile Settings */}
-                        <Link
-                          to="/profile"
+                          to="/profile?tab=profile"
                           onClick={() => setProfileDropdownOpen(false)}
                           className="flex items-center gap-3 px-4 py-2 text-stone-700 hover:bg-stone-50 hover:text-stone-900 transition-colors"
                         >
                           <User className="w-4 h-4 text-stone-400" />
-                          <span>Account Settings</span>
+                          <span>Account Profile</span>
                         </Link>
                       </div>
 
                       <div className="pt-1">
                         <button
+                          type="button"
                           onClick={handleLogout}
                           className="w-full flex items-center gap-3 px-4 py-2.5 text-rose-600 hover:bg-rose-50 font-semibold text-left transition-colors cursor-pointer"
                         >
@@ -398,11 +365,10 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <div ref={profileRef} className="relative flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <Link
                   to="/track-order"
                   className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-[11px] uppercase tracking-[0.14em] font-semibold text-stone-700 hover:text-[#1A1410] rounded-xl hover:bg-stone-100 transition-colors"
-                  title="Track Order"
                 >
                   <Truck className="w-3.5 h-3.5 text-[#8C6E2C]" />
                   <span>Track</span>
@@ -418,7 +384,7 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* Mobile menu trigger */}
+            {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 md:hidden text-stone-700 hover:text-[#8C6E2C]"
@@ -429,7 +395,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Search Bar */}
+        {/* Mobile Search */}
         <div className="pb-3 md:hidden">
           <form onSubmit={handleSearchSubmit} className="relative">
             <input
@@ -443,31 +409,45 @@ export default function Navbar() {
           </form>
         </div>
 
-        {/* ========================================================================= */}
-        {/* STREAMLINED TOP NAVIGATION BAR (ONLY 4 CLEAN LUXURY LINKS) */}
-        {/* Collections (with Pillows, Cushions, Large Bedding inside), Customisation, Visit Store, Contact */}
-        {/* ========================================================================= */}
+        {/* Top Navigation Links */}
         <div className="hidden md:flex items-center justify-center gap-10 py-3 border-t border-gold-100 text-xs uppercase tracking-[0.2em] font-semibold">
-          {/* 1. Collections with Luxury Dropdown */}
+          
+          {/* 1. Direct Click Navigation to Collections + Hover Menu */}
           <div
             ref={collectionsRef}
             className="relative"
             onMouseEnter={() => setCollectionsOpen(true)}
             onMouseLeave={() => setCollectionsOpen(false)}
           >
-            <button
-              onClick={() => setCollectionsOpen(!collectionsOpen)}
-              className={`inline-flex items-center gap-1.5 py-1 transition-colors cursor-pointer ${
-                location.pathname.startsWith('/products')
-                  ? 'text-[#1A1410] font-bold'
-                  : 'text-stone-600 hover:text-stone-900'
-              }`}
-            >
-              <span>Collections</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-[#8C6E2C] transition-transform duration-200 ${collectionsOpen ? 'rotate-180' : ''}`} />
-            </button>
+            <div className="inline-flex items-center gap-1 py-1">
+              <Link
+                to="/products"
+                onClick={() => setCollectionsOpen(false)}
+                className={`transition-colors cursor-pointer ${
+                  location.pathname.startsWith('/products')
+                    ? 'text-[#1A1410] font-bold'
+                    : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                Collections
+              </Link>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCollectionsOpen(!collectionsOpen);
+                }}
+                className="p-0.5 text-stone-500 hover:text-stone-900 cursor-pointer"
+                aria-label="Toggle collections menu"
+              >
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-[#8C6E2C] transition-transform duration-200 ${
+                    collectionsOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+            </div>
 
-            {/* Collections Flyout Dropdown */}
             {collectionsOpen && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 w-80 bg-white rounded-2xl shadow-2xl border border-[#E8D5A3] p-2 z-50 animate-fadeIn">
                 <div className="px-3 py-2 border-b border-stone-100 flex items-center justify-between">
@@ -502,7 +482,6 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* 2. Customisation (Virtual 3D T-Shirt Studio) */}
           <Link
             to="/custom-studio"
             className={`py-1 transition-colors relative ${
@@ -517,7 +496,6 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* 3. Visit Store (Flagship Erode Atelier) */}
           <Link
             to="/location"
             className={`py-1 transition-colors relative ${
@@ -532,7 +510,6 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* 4. Contact (Support & Concierge) */}
           <Link
             to="/contact"
             className={`py-1 transition-colors relative ${
@@ -595,15 +572,15 @@ export default function Navbar() {
             <div className="my-2 border-t border-stone-100" />
 
             <span className="text-[10px] uppercase font-bold tracking-widest text-[#8C6E2C] px-3">
-              Profile & Assistance
+              Orders & Account
             </span>
             <Link
-              to="/dashboard"
+              to="/profile?tab=orders"
               onClick={() => setMobileMenuOpen(false)}
               className="px-3 py-2 text-xs text-stone-800 hover:bg-stone-100 rounded-lg flex items-center gap-2"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Atelier Dashboard</span>
+              <Package className="w-3.5 h-3.5 text-[#8C6E2C]" />
+              <span>Orders & Dispatches</span>
             </Link>
             <Link
               to="/track-order"
@@ -612,6 +589,14 @@ export default function Navbar() {
             >
               <Truck className="w-3.5 h-3.5 text-[#8C6E2C]" />
               <span>Track Consignment</span>
+            </Link>
+            <Link
+              to="/profile?tab=profile"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 text-xs text-stone-800 hover:bg-stone-100 rounded-lg flex items-center gap-2"
+            >
+              <User className="w-3.5 h-3.5 text-stone-400" />
+              <span>Account Profile</span>
             </Link>
           </div>
         )}

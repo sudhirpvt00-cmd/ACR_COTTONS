@@ -1,37 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, Award } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Award, Sparkles } from 'lucide-react';
 
 const SLIDES = [
   {
     id: 1,
+    tag: 'Erode Handloom Atelier',
     badge: 'Textiles Woven for Everyday Luxury',
     title: 'ACR Prints Boutique Hotel Bedding',
-    subtitle: 'Redefining home comfort through artisanal excellence in Erode. Handcrafted textured pillowcases, velvet lumbar cushions, and royal damask bedspreads.',
-    ctaText: 'Explore Collections',
-    ctaLink: '/products',
+    subtitle:
+      'Redefining home comfort through artisanal excellence in Erode. Handcrafted textured pillowcases, velvet lumbar cushions, and royal damask bedspreads.',
+    ctaPrimaryText: 'Explore Collections',
+    ctaPrimaryLink: '/products',
+    ctaSecondaryText: 'Custom Prints',
+    ctaSecondaryLink: '/custom-studio',
     image: '/images/products/pillow_cover_1.jpeg',
-    accent: 'from-amber-950/90 via-orange-950/80 to-stone-900/60',
+    pillText: '600 Thread Count',
   },
   {
     id: 2,
+    tag: 'Artisan Workshop Collection',
     badge: 'Artisanal Craftsmanship',
     title: 'Jacquard Pillows & Velvet Cushions',
-    subtitle: 'Elevate your living space with rich colors, dimensional textures, and soft blush pink linen with metallic embroidery.',
-    ctaText: 'Shop Accent Cushions',
-    ctaLink: '/products?category=accent-cushions',
+    subtitle:
+      'Elevate your living space with rich colors, dimensional textures, and soft blush pink linen with metallic embroidery.',
+    ctaPrimaryText: 'Shop Accent Cushions',
+    ctaPrimaryLink: '/products?category=accent-cushions',
+    ctaSecondaryText: 'Pillowcases & Shams',
+    ctaSecondaryLink: '/products?category=pillowcases-shams',
     image: '/images/products/pillow_cover_5.jpeg',
-    accent: 'from-stone-950/90 via-amber-950/80 to-orange-950/60',
+    pillText: '100% Bio-Washed',
   },
   {
     id: 3,
+    tag: 'Curated Atelier Bundles',
     badge: 'Curated Sets & Bundles',
     title: 'Royal Neutral Bed Set Box',
-    subtitle: 'Complete luxury bedding bundles direct from master artisans in Erode, Tamil Nadu. Designed for a peaceful, royal living experience.',
-    ctaText: 'View Bedding Sets',
-    ctaLink: '/products?category=large-bedding',
+    subtitle:
+      'Complete luxury bedding bundles direct from master artisans in Erode, Tamil Nadu. Designed for a peaceful, royal living experience.',
+    ctaPrimaryText: 'View Bedding Sets',
+    ctaPrimaryLink: '/products?category=large-bedding',
+    ctaSecondaryText: 'Order Swatches',
+    ctaSecondaryLink: '/products',
     image: '/images/products/pillow_cover_9.jpeg',
-    accent: 'from-orange-950/90 via-stone-950/80 to-amber-950/60',
+    pillText: 'Heirloom Weave',
   },
 ];
 
@@ -41,7 +53,7 @@ export default function HeroCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % SLIDES.length);
-    }, 5500);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -53,106 +65,142 @@ export default function HeroCarousel() {
     setCurrent((prev) => (prev + 1) % SLIDES.length);
   };
 
+  const activeSlide = SLIDES[current];
+
   return (
-    <div className="relative w-full h-[460px] sm:h-[540px] md:h-[600px] overflow-hidden bg-stone-950">
-      {/* Slides */}
-      {SLIDES.map((slide, idx) => {
-        const isActive = idx === current;
-        return (
-          <div
-            key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-            }`}
-          >
-            {/* Background Image */}
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className={`w-full h-full object-cover object-center transform transition-transform duration-7000 ease-out ${
-                isActive ? 'scale-105' : 'scale-100'
-              }`}
-            />
+    <section className="relative w-full bg-[#FAF7F2] text-[#2C2117] overflow-hidden border-b border-[#E8DFC8]">
+      {/* Subtle warm champagne & linen ambient glows */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#EBDDBF]/40 rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute top-10 right-10 w-96 h-96 bg-[#F3EAD8]/60 rounded-full blur-[120px] pointer-events-none" />
 
-            {/* Gradient Overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${slide.accent}`} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[440px] sm:min-h-[500px]">
+          
+          {/* ========================================================================= */}
+          {/* LEFT SIDE: Subtle Luxury Editorial Copy & Action Buttons */}
+          {/* ========================================================================= */}
+          <div className="lg:col-span-7 flex flex-col justify-center space-y-6">
+            {/* Tag / Badge */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F3EAD8] border border-[#D9C496] text-[#7A5B20] text-[11px] font-bold uppercase tracking-[0.22em] shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#B88E39]" />
+                {activeSlide.badge}
+              </span>
+              <span className="text-[11px] uppercase tracking-[0.22em] text-[#8C7A68] font-sans hidden sm:inline-block">
+                • {activeSlide.tag}
+              </span>
+            </div>
 
-            {/* Slide Content */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="max-w-2xl text-white">
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-200 text-xs font-bold uppercase tracking-widest mb-4 backdrop-blur-sm">
-                    <Award className="w-4 h-4 text-amber-300" />
-                    <span>{slide.badge}</span>
+            {/* Slide Title */}
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-[#221811] leading-[1.15] tracking-tight">
+              {activeSlide.title}
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-[#5E4E3E] text-sm sm:text-base md:text-lg leading-relaxed max-w-xl font-normal font-serif">
+              {activeSlide.subtitle}
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                to={activeSlide.ctaPrimaryLink}
+                className="px-6 py-3.5 bg-[#2B1F17] hover:bg-[#1A130E] text-[#F9F5EC] font-serif font-bold rounded-2xl text-xs sm:text-sm tracking-wider uppercase shadow-md flex items-center gap-2 transition-all group"
+              >
+                <span>{activeSlide.ctaPrimaryText}</span>
+                <ArrowRight className="w-4 h-4 text-[#D4AF37] transition-transform group-hover:translate-x-1" />
+              </Link>
+
+              <Link
+                to={activeSlide.ctaSecondaryLink}
+                className="px-6 py-3.5 bg-white/80 hover:bg-white text-[#4A3B2C] hover:text-[#221811] border border-[#D9CDB8] font-serif font-medium rounded-2xl text-xs sm:text-sm tracking-wide transition-all shadow-xs"
+              >
+                {activeSlide.ctaSecondaryText}
+              </Link>
+            </div>
+
+            {/* Slide Controls & Dots */}
+            <div className="flex items-center gap-6 pt-3">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={prevSlide}
+                  className="w-10 h-10 rounded-xl bg-white border border-[#DDD0BC] hover:border-[#B88E39] text-[#5A4837] hover:text-[#B88E39] flex items-center justify-center transition-all shadow-xs"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextSlide}
+                  className="w-10 h-10 rounded-xl bg-white border border-[#DDD0BC] hover:border-[#B88E39] text-[#5A4837] hover:text-[#B88E39] flex items-center justify-center transition-all shadow-xs"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Dot Indicators */}
+              <div className="flex items-center gap-2">
+                {SLIDES.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setCurrent(i)}
+                    className={`h-2 transition-all duration-300 rounded-full ${
+                      i === current
+                        ? 'w-8 bg-[#8C6D2B]'
+                        : 'w-2 bg-[#D9CEBA] hover:bg-[#B5A58D]'
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              <span className="text-xs font-mono text-[#82715F]">
+                0{current + 1} / 0{SLIDES.length}
+              </span>
+            </div>
+          </div>
+
+          {/* ========================================================================= */}
+          {/* RIGHT SIDE: Warm Framed Textile Photography */}
+          {/* ========================================================================= */}
+          <div className="lg:col-span-5 flex justify-center items-center">
+            <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] sm:aspect-square">
+              {/* Outer Subtle Halo */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-[#D9C496]/50 via-transparent to-[#EBDDBF]/60 -rotate-1 scale-[1.02] -z-10 blur-xs" />
+
+              {/* Frame Card */}
+              <div className="relative w-full h-full rounded-3xl overflow-hidden border border-[#D9C9AB] shadow-xl bg-stone-100">
+                <img
+                  key={activeSlide.id}
+                  src={activeSlide.image}
+                  alt={activeSlide.title}
+                  className="w-full h-full object-cover object-center transition-opacity duration-700 ease-out"
+                />
+
+                {/* Light bottom fade to ground the badge */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+                {/* Quality Pill */}
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs backdrop-blur-md bg-white/90 px-4 py-2.5 rounded-2xl border border-[#DFD3BE] text-[#3A2B1D] shadow-sm">
+                  <div className="flex items-center gap-2">
+                    <Award className="w-4 h-4 text-[#8C6D2B]" />
+                    <span className="font-serif font-bold tracking-wide">
+                      {activeSlide.pillText}
+                    </span>
                   </div>
-
-                  {/* Heading */}
-                  <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-4 text-amber-50">
-                    {slide.title}
-                  </h1>
-
-                  {/* Subtitle */}
-                  <p className="text-sm sm:text-base md:text-lg text-amber-100/90 leading-relaxed mb-8 max-w-xl">
-                    {slide.subtitle}
-                  </p>
-
-                  {/* Actions */}
-                  <div className="flex flex-wrap items-center gap-4">
-                    <Link
-                      to={slide.ctaLink}
-                      className="px-6 py-3.5 bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold rounded-xl text-sm shadow-elevated transition-all flex items-center gap-2 group"
-                    >
-                      <span>{slide.ctaText}</span>
-                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </Link>
-
-                    <Link
-                      to="/products?category=pillowcases-shams"
-                      className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white border border-white/30 font-semibold rounded-xl text-sm backdrop-blur-sm transition-all"
-                    >
-                      Pillowcases & Shams
-                    </Link>
-                  </div>
+                  <span className="text-[10px] uppercase font-sans tracking-widest text-[#7A5B20] font-semibold">
+                    Authentic Atelier
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-        );
-      })}
 
-      {/* Slide Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-sm transition-all border border-white/20"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
-
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-sm transition-all border border-white/20"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="w-5 h-5" />
-      </button>
-
-      {/* Slide Dots Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
-        {SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`transition-all duration-300 rounded-full ${
-              i === current
-                ? 'w-8 h-2.5 bg-amber-400'
-                : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/70'
-            }`}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

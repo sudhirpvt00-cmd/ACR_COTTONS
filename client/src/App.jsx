@@ -12,10 +12,8 @@ import LocationPage from './pages/storefront/LocationPage.jsx';
 import CartPage from './pages/cart/CartPage.jsx';
 import ProfilePage from './pages/profile/ProfilePage.jsx';
 import CheckoutPage from './pages/orders/CheckoutPage.jsx';
-import OrdersPage from './pages/orders/OrdersPage.jsx';
 import OrderDetailPage from './pages/orders/OrderDetailPage.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
-import DashboardPage from './pages/DashboardPage.jsx';
 import CustomStudioPage from './pages/storefront/CustomStudioPage.jsx';
 import TrackOrderPage from './pages/storefront/TrackOrderPage.jsx';
 
@@ -24,28 +22,22 @@ export default function App() {
 
   return (
     <Routes>
+      {/* Auth Routes */}
       <Route
         path="/login"
-        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />}
+        element={isAuthenticated ? <Navigate to="/profile?tab=orders" replace /> : <LoginPage />}
       />
       <Route
         path="/register"
-        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <RegisterPage />}
+        element={isAuthenticated ? <Navigate to="/profile?tab=orders" replace /> : <RegisterPage />}
       />
       <Route
         path="/forgot-password"
-        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <ForgotPasswordPage />}
+        element={isAuthenticated ? <Navigate to="/profile?tab=orders" replace /> : <ForgotPasswordPage />}
       />
 
+      {/* Storefront Routes */}
       <Route path="/" element={<HomePage />} />
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
-      />
       <Route path="/custom-studio" element={<CustomStudioPage />} />
       <Route path="/track-order" element={<TrackOrderPage />} />
       <Route path="/products" element={<ProductListPage />} />
@@ -53,6 +45,7 @@ export default function App() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/location" element={<LocationPage />} />
 
+      {/* User Shopping & Profile Routes */}
       <Route
         path="/cart"
         element={
@@ -77,11 +70,12 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      {/* Orders redirect straight into the Profile Orders Tab */}
       <Route
         path="/orders"
         element={
           <ProtectedRoute>
-            <OrdersPage />
+            <Navigate to="/profile?tab=orders" replace />
           </ProtectedRoute>
         }
       />
@@ -94,6 +88,17 @@ export default function App() {
         }
       />
 
+      {/* Legacy Dashboard Route Redirects Directly to Profile Orders */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Navigate to="/profile?tab=orders" replace />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
